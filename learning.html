@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학습 공간 - 진로 포트폴리오</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .learning-page { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+    .learning-back { margin-bottom: 1.5rem; }
+    .learning-back a { color: var(--color-primary); text-decoration: none; font-weight: 500; }
+    .learning-back a:hover { text-decoration: underline; }
+    .learning-title { margin: 0 0 0.5rem 0; font-size: 1.5rem; font-weight: 700; color: var(--color-secondary); }
+    .learning-guide { margin: 0 0 1.5rem 0; color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.6; }
+    .learning-area { margin-top: 1rem; }
+    .learning-area label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--color-text); }
+    .learning-area textarea { width: 100%; min-height: 280px; padding: 1rem; border: 1px solid var(--color-border); border-radius: 12px; font-family: var(--font); font-size: 0.95rem; line-height: 1.6; box-sizing: border-box; resize: vertical; }
+    .learning-area textarea:focus { outline: none; border-color: var(--color-primary); }
+    .learning-saved { margin-top: 0.5rem; font-size: 0.85rem; color: var(--color-text-muted); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <h1>진로 포트폴리오</h1>
+      <p class="subtitle">학습 공간</p>
+    </div>
+  </header>
+
+  <main class="learning-page">
+    <nav class="learning-back">
+      <a href="index.html">← 목록으로 돌아가기</a>
+    </nav>
+    <h2 class="learning-title" id="learningTitle">학습 주제</h2>
+    <p class="learning-guide" id="learningGuide">주제를 선택하면 여기에 안내가 표시됩니다.</p>
+    <div class="learning-area">
+      <label for="learningContent">나의 학습·기록</label>
+      <textarea id="learningContent" placeholder="이 주제에 대해 학습한 내용, 활동 기록, 느낀 점 등을 자유롭게 적어 보세요. 자동으로 저장됩니다."></textarea>
+      <p class="learning-saved" id="learningSaved"></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>특성화고등학교 진로 포트폴리오</p>
+  </footer>
+
+  <script>
+    (function () {
+      var TOPICS = {
+        worknet: {
+          title: '워크넷 진로심리검사 결과지',
+          guide: '워크넷 진로심리검사 결과를 요약하고, 나에게 맞는 직업·진로 유형, 느낀 점을 기록해 보세요.'
+        },
+        mbti: {
+          title: 'MBTI 검사 결과',
+          guide: 'MBTI 유형, 검사 결과 요약, 나의 성향과 잘 맞는 직업·활동, 이를 바탕으로 한 자기 이해를 적어 보세요.'
+        },
+        strength: {
+          title: '강점 검사 결과',
+          guide: '강점 검사에서 나온 상위 강점, 그 강점을 일상·진로에서 어떻게 살릴 수 있는지 기록해 보세요.'
+        },
+        work_value: {
+          title: '일터에서 중요하게 생각하는 가치',
+          guide: '일할 때 나에게 중요한 가치(예: 성장, 관계, 안정, 도전 등)를 구체적으로 정리해 보세요.'
+        },
+        value_list: {
+          title: '돈, 보람, 워라밸 등 정리',
+          guide: '돈·보람·워라밸·성장·안정 등 여러 가치 중 나의 우선순위와 이유를 정리해 보세요.'
+        },
+        like_list: {
+          title: '좋아하는 것 리스트',
+          guide: '좋아하는 활동, 분야, 환경, 사람 유형 등을 리스트로 정리하고, 진로와 연결해 보세요.'
+        },
+        good_at_list: {
+          title: '잘하는 것 리스트',
+          guide: '잘하는 것, 남들이 인정해 준 점, 성과를 낸 경험을 리스트로 정리해 보세요.'
+        },
+        interest_aptitude: {
+          title: '구분하여 정리한 내용',
+          guide: '좋아하는 것과 잘하는 것을 구분해 표로 정리하고, 둘의 공통점·진로 방향을 써 보세요.'
+        },
+        academic_result: {
+          title: '전공 수업 수행평가 결과물',
+          guide: '전공 수업에서 수행한 수행평가 주제, 결과물 요약, 배운 점을 기록해 보세요. 성과나 특별히 기억에 남는 내용이 있으면 함께 적어 보세요.'
+        },
+        school_record: {
+          title: '생활기록부 요약 (특이사항)',
+          guide: '생활기록부에 기록된 특이사항, 교사 코멘트, 성장한 점을 요약해 보세요. 진로·학습 태도와 연결된 내용이 있으면 좋습니다.'
+        },
+        club: {
+          title: '동아리 활동',
+          guide: '동아리에서 한 활동, 역할, 배운 점, 성과를 정리해 보세요. 진로와 연결된 경험이 있다면 함께 적어 보세요.'
+        },
+        volunteer: {
+          title: '봉사활동',
+          guide: '참여한 봉사활동 내용, 시간, 느낀 점, 배운 점을 기록해 보세요. 봉사를 통해 키운 역량을 정리할 수 있습니다.'
+        },
+        reading: {
+          title: '독서 기록 (느낀 점 위주)',
+          guide: '읽은 책의 제목, 저자, 읽은 기간과 함께 느낀 점과 배운 점을 써 보세요. 진로·성장과 연결된 부분이 있으면 좋습니다.'
+        },
+        license_process: {
+          title: '전공 관련 자격증 취득 과정',
+          guide: '도전한 자격증 이름, 준비 과정, 공부한 기간·방법, 어려웠던 점과 극복한 점을 기록해 보세요.'
+        },
+        license_result: {
+          title: '자격 및 이수증 취득 결과',
+          guide: '취득한 자격증·이수증 목록, 취득 일자, 활용 계획을 정리해 보세요. 진로에 어떻게 연결할지도 적어 보세요.'
+        }
+      };
+      var STORAGE_PREFIX = 'career_learning_';
+
+      function getTopic() {
+        var params = new URLSearchParams(window.location.search);
+        return params.get('topic') || '';
+      }
+
+      function getStorageKey(topic) {
+        return STORAGE_PREFIX + topic;
+      }
+
+      var topic = getTopic();
+      var topicData = TOPICS[topic];
+      var titleEl = document.getElementById('learningTitle');
+      var guideEl = document.getElementById('learningGuide');
+      var contentEl = document.getElementById('learningContent');
+      var savedEl = document.getElementById('learningSaved');
+
+      if (topicData) {
+        titleEl.textContent = topicData.title;
+        guideEl.textContent = topicData.guide;
+        document.title = topicData.title + ' - 진로 포트폴리오 학습';
+        try {
+          var saved = localStorage.getItem(getStorageKey(topic));
+          if (saved) contentEl.value = saved;
+        } catch (e) {}
+      } else {
+        titleEl.textContent = '학습 주제 선택';
+        guideEl.textContent = '메인 페이지의 「1. 자기 이해」, 「3. 학습·활동 기록」 등 각 섹션의 개별 항목을 클릭해 주세요.';
+      }
+
+      if (contentEl && topic) {
+        var saveTimeout;
+        contentEl.addEventListener('input', function () {
+          clearTimeout(saveTimeout);
+          saveTimeout = setTimeout(function () {
+            try {
+              localStorage.setItem(getStorageKey(topic), contentEl.value);
+              if (savedEl) savedEl.textContent = '저장됨';
+              setTimeout(function () { savedEl.textContent = ''; }, 2000);
+            } catch (e) {}
+          }, 500);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

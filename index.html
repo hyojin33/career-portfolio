@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진로 포트폴리오</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <h1>진로 포트폴리오</h1>
+      <p class="subtitle">특성화고등학교 진로·취업 역량 기록</p>
+      <!-- 로그인 영역 -->
+      <div class="login-area">
+        <form class="login-form" id="loginForm" aria-label="로그인">
+          <input type="text" name="userId" id="userId" placeholder="아이디" required autocomplete="username">
+          <input type="password" name="password" id="password" placeholder="비밀번호" required autocomplete="current-password">
+          <button type="submit" class="btn-login">로그인</button>
+        </form>
+        <div class="login-user hidden" id="loginUser">
+          <span class="user-name" id="userName"></span>
+          <button type="button" class="btn-logout" id="btnLogout">로그아웃</button>
+        </div>
+        <p class="login-msg hidden" id="loginMsg"></p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <ul>
+      <li><button type="button" class="nav-btn active" data-section="self-exploration">1. 자기 이해</button></li>
+      <li><button type="button" class="nav-btn" data-section="career-goal">2. 진로 목표</button></li>
+      <li><button type="button" class="nav-btn" data-section="evidence">3. 학습·활동 기록</button></li>
+      <li><button type="button" class="nav-btn" data-section="reflections">4. 성찰·피드백</button></li>
+    </ul>
+  </nav>
+
+  <!-- 메뉴바 밑 콘텐츠 패널 (선택한 메뉴 항목만 표시) -->
+  <div class="nav-content-panel">
+    <section id="self-exploration" class="section section-1 nav-panel-section active">
+      <h2 class="section-title">1. 자기 이해 (Self-Exploration)</h2>
+      <p class="section-desc">'나는 누구인가'에 대한 답을 찾는 과정입니다.</p>
+      <div class="card-list">
+        <article class="card">
+          <h3>표준화 검사 결과</h3>
+          <ul>
+            <li><a href="learning.html?topic=worknet" class="card-link">워크넷 진로심리검사 결과지</a></li>
+            <li><a href="learning.html?topic=mbti" class="card-link">MBTI 검사 결과</a></li>
+            <li><a href="learning.html?topic=strength" class="card-link">강점 검사 결과</a></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>나의 가치관</h3>
+          <ul>
+            <li><a href="learning.html?topic=work_value" class="card-link">일터에서 중요하게 생각하는 가치</a></li>
+            <li><a href="learning.html?topic=value_list" class="card-link">돈, 보람, 워라밸 등 정리</a></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>흥미와 적성</h3>
+          <ul>
+            <li><a href="learning.html?topic=like_list" class="card-link">좋아하는 것 리스트</a></li>
+            <li><a href="learning.html?topic=good_at_list" class="card-link">잘하는 것 리스트</a></li>
+            <li><a href="learning.html?topic=interest_aptitude" class="card-link">구분하여 정리한 내용</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+    <section id="career-goal" class="section section-2 nav-panel-section">
+      <h2 class="section-title">2. 진로 목표 설정 (Career Goal)</h2>
+      <p class="section-desc">단기·중기·장기 목표를 구체화합니다.</p>
+      <div class="card-list">
+        <article class="card">
+          <h3>나의 꿈(비전)</h3>
+          <ul>
+            <li>최종적으로 되고 싶은 모습</li>
+            <li>사회적 역할</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>로드맵</h3>
+          <ul>
+            <li>목표 달성을 위한 시기별 계획</li>
+            <li>시각화한 지도</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>희망 직무/기업 분석</h3>
+          <ul>
+            <li>가고자 하는 분야의 최신 트렌드</li>
+            <li>요구 역량 조사 내용</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+    <section id="evidence" class="section section-3 nav-panel-section">
+      <h2 class="section-title">3. 학습 및 활동 기록 (Evidence)</h2>
+      <p class="section-desc">꿈을 향해 노력한 과정을 증거로 남깁니다.</p>
+      <div class="card-list">
+        <article class="card">
+          <h3>교과 활동</h3>
+          <ul>
+            <li><a href="learning.html?topic=academic_result" class="card-link">전공 수업 수행평가 결과물</a></li>
+            <li><a href="learning.html?topic=school_record" class="card-link">생활기록부 요약 (특이사항)</a></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>비교과 활동</h3>
+          <ul>
+            <li><a href="learning.html?topic=club" class="card-link">동아리 활동</a></li>
+            <li><a href="learning.html?topic=volunteer" class="card-link">봉사활동</a></li>
+            <li><a href="learning.html?topic=reading" class="card-link">독서 기록 (느낀 점 위주)</a></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>자격 및 이수증</h3>
+          <ul>
+            <li><a href="learning.html?topic=license_process" class="card-link">전공 관련 자격증 취득 과정</a></li>
+            <li><a href="learning.html?topic=license_result" class="card-link">취득 결과</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+    <section id="reflections" class="section section-4 nav-panel-section">
+      <h2 class="section-title">4. 성찰 및 피드백 (Reflections)</h2>
+      <p class="section-desc">진로 포트폴리오에서 가장 중요한 부분입니다.</p>
+      <div class="card-list">
+        <article class="card">
+          <h3>성장 일기</h3>
+          <ul>
+            <li>활동 후 배운 점</li>
+            <li>생각의 변화 기록</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>멘토링 기록</h3>
+          <ul>
+            <li>선생님·선배·전문가 조언</li>
+            <li>조언을 통한 개선점</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- 진로 포트폴리오 학습 결과 시각화 -->
+  <section class="viz-section" id="visualization">
+    <div class="viz-inner">
+      <h2 class="viz-title">진로 포트폴리오 학습 결과 시각화</h2>
+      <p class="viz-desc">영역을 클릭하면 해당 세부 항목의 진행률을 볼 수 있습니다.</p>
+      <div class="chart-block">
+        <h3>영역별 진행률 (%)</h3>
+        <div class="viz-areas" id="vizAreas">
+          <button type="button" class="viz-area-row" data-area="0" aria-expanded="false">
+            <span class="viz-area-name">1. 자기 이해</span>
+            <span class="viz-area-avg" data-avg="0">0%</span>
+            <span class="viz-area-arrow" aria-hidden="true">▼</span>
+          </button>
+          <button type="button" class="viz-area-row" data-area="1" aria-expanded="false">
+            <span class="viz-area-name">2. 진로 목표</span>
+            <span class="viz-area-avg" data-avg="0">0%</span>
+            <span class="viz-area-arrow" aria-hidden="true">▼</span>
+          </button>
+          <button type="button" class="viz-area-row" data-area="2" aria-expanded="false">
+            <span class="viz-area-name">3. 학습·활동 기록</span>
+            <span class="viz-area-avg" data-avg="0">0%</span>
+            <span class="viz-area-arrow" aria-hidden="true">▼</span>
+          </button>
+          <button type="button" class="viz-area-row" data-area="3" aria-expanded="false">
+            <span class="viz-area-name">4. 성찰·피드백</span>
+            <span class="viz-area-avg" data-avg="0">0%</span>
+            <span class="viz-area-arrow" aria-hidden="true">▼</span>
+          </button>
+        </div>
+        <div class="viz-detail hidden" id="vizDetail" aria-hidden="true">
+          <h4 class="viz-detail-title" id="vizDetailTitle"></h4>
+          <div class="viz-detail-bars" id="vizDetailBars"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>특성화고등학교 진로 포트폴리오</p>
+  </footer>
+
+  <!-- 챗봇 열기 단추 -->
+  <button type="button" class="chat-toggle" id="chatToggle" aria-label="챗봇 열기">
+    <span class="chat-toggle-icon">💬</span>
+    <span class="chat-toggle-text">챗봇</span>
+  </button>
+
+  <!-- 챗봇 패널 (클릭 시 열림) -->
+  <div class="chat-panel hidden" id="chatPanel" aria-hidden="true">
+    <div class="chat-panel-header">
+      <h3 class="chat-panel-title">진로 포트폴리오 챗봇</h3>
+      <button type="button" class="chat-panel-close" id="chatClose" aria-label="챗봇 닫기">×</button>
+    </div>
+    <div class="chat-api-row">
+      <label class="chat-api-label">Gemini API 키</label>
+      <input type="password" class="chat-api-input" id="chatApiKey" placeholder="API 키 입력 후 Enter" autocomplete="off">
+    </div>
+    <div class="chat-panel-body">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-loading hidden" id="chatLoading">답변 생성 중…</div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" class="chat-input" id="chatInput" placeholder="메시지를 입력하세요" maxlength="1000" autocomplete="off">
+      <button type="button" class="chat-send" id="chatSend" aria-label="전송">전송</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

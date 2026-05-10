@@ -12,7 +12,7 @@ export const TOPIC_CONTENT: Record<
     body: "<p>직업흥미검사는 자신이 어떤 일에 흥미를 느끼는지 알아보는 도구입니다. Holland 이론(현실형·탐구형·예술형·사회형·진취형·관습형) 기반 검사가 많이 사용됩니다.</p><p>검사 결과와 자신이 생각하는 흥미를 비교해 보며, 진로 목표 설정에 반영해 보세요.</p>",
   },
   strength: {
-    title: "AI 진로검사 피드백",
+    title: "진로 검사 현황",
     body: "<p>진로 검사 결과를 바탕으로 AI가 제안하는 직무나 학습 방향을 참고할 수 있습니다. 자신의 강점과 보완할 점을 정리해 두면 성찰 단계에서 활용하기 좋습니다.</p>",
   },
   work_value: {
@@ -152,4 +152,12 @@ export function loadStoredDetail(): Record<string, number[]> {
 
 export function getAreaValuesFromStored(areaIndex: number, stored: Record<string, number[]>): number[] {
   return getAreaValues(areaIndex, stored);
+}
+
+/** 진행률을 localStorage에 저장 (학습 플랫폼 ↔ 서버 연동용) */
+export function saveStoredDetail(stored: Record<string, number[]>) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(STORAGE_DETAIL, JSON.stringify(stored));
+  } catch (_) {}
 }

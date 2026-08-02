@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>꿈꾸는 길 · 특성화고 진로 교육 플랫폼</title>
+<style>
+  :root{
+    --primary:#5b6cff;
+    --primary-dark:#3a4be0;
+    --accent:#ff7a59;
+    --bg:#f6f8fc;
+    --card:#ffffff;
+    --text:#1f2333;
+    --text-light:#666b80;
+    --border:#e5e8f0;
+    --success:#22c55e;
+    --R:#ef4444; --I:#3b82f6; --A:#a855f7; --S:#10b981; --E:#f59e0b; --C:#6366f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;
+  }
+  /* Header */
+  header{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:white;padding:24px 32px;box-shadow:0 2px 12px rgba(0,0,0,0.08);
+    position:sticky;top:0;z-index:100;
+  }
+  .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .logo{font-size:22px;font-weight:800;display:flex;align-items:center;gap:8px}
+  .logo span{font-size:28px}
+  nav{display:flex;gap:8px;flex-wrap:wrap}
+  nav button{
+    background:rgba(255,255,255,0.12);color:white;border:none;
+    padding:10px 18px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;
+    transition:all 0.2s;
+  }
+  nav button:hover{background:rgba(255,255,255,0.22)}
+  nav button.active{background:white;color:var(--primary-dark)}
+  /* Layout */
+  main{max-width:1200px;margin:0 auto;padding:32px}
+  .page{display:none;animation:fade 0.3s ease}
+  .page.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  h1{font-size:32px;margin-bottom:8px;color:var(--text)}
+  h2{font-size:22px;margin:24px 0 12px;color:var(--text)}
+  .subtitle{color:var(--text-light);margin-bottom:24px;font-size:15px}
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,#eef1ff,#fff5f0);
+    border-radius:20px;padding:48px 32px;text-align:center;margin-bottom:32px;
+  }
+  .hero h1{font-size:38px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+  .hero p{font-size:17px;color:var(--text-light);max-width:600px;margin:0 auto 24px}
+  .hero-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:32px}
+  .hero-card{
+    background:white;border-radius:16px;padding:24px;text-align:left;
+    box-shadow:0 2px 12px rgba(91,108,255,0.08);cursor:pointer;transition:all 0.2s;
+    border:2px solid transparent;
+  }
+  .hero-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(91,108,255,0.15);border-color:var(--primary)}
+  .hero-card .icon{font-size:32px;margin-bottom:12px}
+  .hero-card h3{font-size:17px;margin-bottom:6px}
+  .hero-card p{font-size:13px;color:var(--text-light);margin:0}
+  /* Cards */
+  .card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.04);border:1px solid var(--border)}
+  /* Buttons */
+  .btn{
+    background:var(--primary);color:white;border:none;padding:12px 24px;
+    border-radius:8px;cursor:pointer;font-size:15px;font-weight:600;
+    transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;
+  }
+  .btn:hover{background:var(--primary-dark);transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+  .btn-outline:hover{background:var(--primary);color:white}
+  .btn-accent{background:var(--accent)}
+  .btn-accent:hover{background:#ee5b3a}
+  .btn-sm{padding:8px 14px;font-size:13px}
+  /* Aptitude Test */
+  .progress-bar{background:var(--border);height:10px;border-radius:5px;overflow:hidden;margin:16px 0 24px}
+  .progress-fill{background:linear-gradient(90deg,var(--primary),var(--accent));height:100%;transition:width 0.4s ease;border-radius:5px}
+  .question{font-size:18px;font-weight:600;margin:24px 0 16px;line-height:1.5}
+  .question-num{color:var(--primary);font-weight:700;margin-right:6px}
+  .options{display:grid;gap:10px}
+  .option{
+    background:white;border:2px solid var(--border);padding:14px 18px;
+    border-radius:10px;cursor:pointer;text-align:left;font-size:15px;
+    transition:all 0.2s;display:flex;align-items:center;gap:12px;
+  }
+  .option:hover{border-color:var(--primary);background:#f8f9ff}
+  .option.selected{border-color:var(--primary);background:#eef1ff;font-weight:600}
+  .option-icon{
+    width:28px;height:28px;border-radius:50%;border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-size:12px;font-weight:700;color:var(--text-light);
+  }
+  .option.selected .option-icon{border-color:var(--primary);background:var(--primary);color:white}
+  .test-controls{display:flex;justify-content:space-between;margin-top:24px;gap:12px}
+  /* Result */
+  .result-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:24px 0}
+  .score-item{padding:14px;border-radius:10px;text-align:center;color:white}
+  .score-item .type{font-size:13px;opacity:0.9}
+  .score-item .val{font-size:24px;font-weight:800;margin-top:4px}
+  .top-type{
+    background:linear-gradient(135deg,#eef1ff,#fff5f0);
+    padding:24px;border-radius:14px;margin:16px 0;
+    border-left:5px solid var(--primary);
+  }
+  /* Job/Major Info */
+  .filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .chip{
+    padding:8px 16px;border-radius:20px;background:white;border:1px solid var(--border);
+    cursor:pointer;font-size:13px;transition:all 0.2s;
+  }
+  .chip:hover{border-color:var(--primary)}
+  .chip.active{background:var(--primary);color:white;border-color:var(--primary)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .job-card{
+    background:white;border-radius:14px;padding:20px;border:1px solid var(--border);
+    cursor:pointer;transition:all 0.2s;
+  }
+  .job-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.06)}
+  .job-card .emoji{font-size:36px;margin-bottom:8px}
+  .job-card h3{font-size:18px;margin-bottom:4px}
+  .job-card .field{font-size:13px;color:var(--primary);font-weight:600;margin-bottom:10px}
+  .job-card .salary{font-size:14px;color:var(--text-light);margin:8px 0}
+  .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+  .tag{background:#eef1ff;color:var(--primary-dark);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500}
+  /* Modal */
+  .modal{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);
+    z-index:200;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal.open{display:flex}
+  .modal-content{
+    background:white;border-radius:16px;max-width:600px;width:100%;
+    max-height:85vh;overflow-y:auto;padding:28px;animation:fade 0.2s;
+  }
+  .modal-close{
+    float:right;background:transparent;border:none;font-size:24px;
+    cursor:pointer;color:var(--text-light);
+  }
+  .detail-section{margin:16px 0}
+  .detail-section strong{display:block;color:var(--primary);margin-bottom:6px;font-size:13px}
+  .detail-section ul{list-style:none;padding-left:0}
+  .detail-section li{padding:6px 0;border-bottom:1px dashed var(--border)}
+  .detail-section li:last-child{border:none}
+  /* Portfolio */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+  .form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .form-group label{font-size:13px;font-weight:600;color:var(--text)}
+  .form-group input,.form-group textarea,.form-group select{
+    padding:11px 14px;border:1px solid var(--border);border-radius:8px;
+    font-size:14px;font-family:inherit;transition:border 0.2s;background:white;
+  }
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+    outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(91,108,255,0.1);
+  }
+  .form-group textarea{min-height:90px;resize:vertical}
+  .item-list{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+  .item-row{
+    display:flex;gap:8px;align-items:center;
+    background:#f8f9ff;padding:10px 14px;border-radius:8px;
+  }
+  .item-row span{flex:1;font-size:14px}
+  .remove-btn{
+    background:#ffe5e5;color:#dc2626;border:none;width:28px;height:28px;
+    border-radius:6px;cursor:pointer;font-size:14px;
+  }
+  .portfolio-preview{
+    background:white;padding:32px;border-radius:14px;border:2px solid var(--border);
+    margin-top:24px;
+  }
+  .pp-header{border-bottom:3px solid var(--primary);padding-bottom:16px;margin-bottom:20px}
+  .pp-header h2{margin:0;font-size:28px;color:var(--primary)}
+  .pp-header p{color:var(--text-light);margin-top:6px}
+  .pp-section{margin:20px 0}
+  .pp-section h3{font-size:16px;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .pp-section h3::before{content:"";width:4px;height:18px;background:var(--primary);border-radius:2px;display:inline-block}
+  /* Roadmap */
+  .roadmap{position:relative;padding:20px 0}
+  .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative}
+  @media(max-width:768px){.timeline{grid-template-columns:1fr}}
+  .timeline::before{
+    content:"";position:absolute;top:48px;left:5%;right:5%;height:4px;
+    background:linear-gradient(90deg,var(--primary),var(--accent));
+    border-radius:2px;z-index:0;
+  }
+  @media(max-width:768px){.timeline::before{display:none}}
+  .stage{position:relative;z-index:1;text-align:center}
+  .stage-dot{
+    width:50px;height:50px;border-radius:50%;
+    background:linear-gradient(135deg,var(--primary),var(--accent));
+    color:white;display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;font-size:20px;font-weight:800;
+    box-shadow:0 4px 12px rgba(91,108,255,0.3);
+  }
+  .stage-card{
+    background:white;border-radius:12px;padding:16px;text-align:left;
+    border:1px solid var(--border);min-height:160px;
+  }
+  .stage-card h4{font-size:15px;margin-bottom:8px;color:var(--primary)}
+  .stage-card ul{list-style:none;font-size:13px;color:var(--text)}
+  .stage-card li{padding:4px 0;display:flex;gap:6px}
+  .stage-card li::before{content:"▸";color:var(--primary);font-weight:bold}
+  .path-selector{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+  .path-btn{
+    padding:10px 20px;border-radius:24px;background:white;border:2px solid var(--border);
+    cursor:pointer;font-weight:600;transition:all 0.2s;
+  }
+  .path-btn.active{background:var(--primary);color:white;border-color:var(--primary)}
+  /* Misc */
+  .empty{text-align:center;padding:40px;color:var(--text-light)}
+  .badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700}
+  .badge-r{background:#fee2e2;color:#991b1b}
+  .badge-i{background:#dbeafe;color:#1e40af}
+  .badge-a{background:#f3e8ff;color:#6b21a8}
+  .badge-s{background:#d1fae5;color:#065f46}
+  .badge-e{background:#fef3c7;color:#92400e}
+  .badge-c{background:#e0e7ff;color:#3730a3}
+  @media print{
+    header,nav,.btn,.no-print{display:none!important}
+    body{background:white}
+    main{padding:0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span>🌱</span>꿈꾸는 길</div>
+    <nav>
+      <button class="nav-btn active" data-page="home">홈</button>
+      <button class="nav-btn" data-page="aptitude">적성검사</button>
+      <button class="nav-btn" data-page="jobs">직무·학과</button>
+      <button class="nav-btn" data-page="portfolio">포트폴리오</button>
+      <button class="nav-btn" data-page="roadmap">진로 로드맵</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section id="page-home" class="page active">
+  <div class="hero">
+    <h1>나의 진로, 내가 그리는 길</h1>
+    <p>특성화고 학생을 위한 진로 탐색 플랫폼. 적성을 알고, 길을 찾고, 나만의 포트폴리오를 만들어보세요.</p>
+    <div class="hero-cards">
+      <div class="hero-card" data-go="aptitude">
+        <div class="icon">🧭</div>
+        <h3>직업 적성 검사</h3>
+        <p>홀랜드 6유형 기반 검사로 나에게 맞는 분야 발견</p>
+      </div>
+      <div class="hero-card" data-go="jobs">
+        <div class="icon">💼</div>
+        <h3>직무·학과 정보</h3>
+        <p>특성화고 학과별 직업, 자격증, 연봉 한눈에</p>
+      </div>
+      <div class="hero-card" data-go="portfolio">
+        <div class="icon">📄</div>
+        <h3>나의 포트폴리오</h3>
+        <p>자격증·활동·프로젝트를 입력해 자동 생성</p>
+      </div>
+      <div class="hero-card" data-go="roadmap">
+        <div class="icon">🗺️</div>
+        <h3>진로 로드맵</h3>
+        <p>학년별·진로별 단계 시각화로 계획 세우기</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APTITUDE -->
+<section id="page-aptitude" class="page">
+  <h1>🧭 직업 적성 검사</h1>
+  <p class="subtitle">홀랜드(Holland) 직업 흥미 유형 검사를 특성화고 학생용으로 구성했습니다. 18문항이며 약 5분 소요됩니다.</p>
+  <div class="card" id="aptitude-card">
+    <!-- Filled by JS -->
+  </div>
+</section>
+
+<!-- JOBS -->
+<section id="page-jobs" class="page">
+  <h1>💼 직무·학과 정보 탐색</h1>
+  <p class="subtitle">특성화고 학과별 진출 직업, 자격증, 평균 연봉을 살펴보세요. 카드를 클릭하면 상세 정보가 나타납니다.</p>
+  <div class="filter-bar" id="filter-bar"></div>
+  <div class="grid" id="job-grid"></div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="page-portfolio" class="page">
+  <h1>📄 나만의 포트폴리오 만들기</h1>
+  <p class="subtitle">아래 정보를 입력하면 깔끔한 포트폴리오로 정리됩니다. 작성 내용은 브라우저에 자동 저장됩니다.</p>
+  <div class="card">
+    <div class="form-grid">
+      <div class="form-group"><label>이름</label><input id="pf-name" placeholder="홍길동" /></div>
+      <div class="form-group"><label>학교 / 학년</label><input id="pf-school" placeholder="○○특성화고 3학년" /></div>
+      <div class="form-group"><label>학과</label><input id="pf-major" placeholder="예) 컴퓨터응용과" /></div>
+      <div class="form-group"><label>희망 진로</label><input id="pf-goal" placeholder="예) 백엔드 개발자" /></div>
+    </div>
+    <div class="form-group"><label>자기소개 (한 문장)</label><textarea id="pf-intro" placeholder="새로운 기술을 배우는 데에 열정이 많은 ○○○입니다."></textarea></div>
+
+    <h2 style="font-size:17px">🏆 자격증</h2>
+    <div class="item-list" id="pf-cert-list"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="pf-cert-input" placeholder="예) 정보처리기능사" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px" />
+      <button class="btn btn-sm" onclick="addItem('cert')">추가</button>
+    </div>
+
+    <h2 style="font-size:17px;margin-top:24px">🛠 프로젝트 / 활동</h2>
+    <div class="item-list" id="pf-proj-list"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="pf-proj-input" placeholder="예) 학교 홈페이지 리뉴얼" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px" />
+      <button class="btn btn-sm" onclick="addItem('proj')">추가</button>
+    </div>
+
+    <h2 style="font-size:17px;margin-top:24px">🎯 강점·스킬</h2>
+    <div class="item-list" id="pf-skill-list"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <input id="pf-skill-input" placeholder="예) JavaScript, 팀워크" style="flex:1;padding:10px;border:1px solid var(--border);border-radius:8px" />
+      <button class="btn btn-sm" onclick="addItem('skill')">추가</button>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:24px;flex-wrap:wrap">
+      <button class="btn" onclick="renderPortfolio()">미리보기 갱신</button>
+      <button class="btn btn-outline" onclick="window.print()">인쇄 / PDF 저장</button>
+      <button class="btn btn-outline" onclick="resetPortfolio()" style="border-color:#dc2626;color:#dc2626">초기화</button>
+    </div>
+  </div>
+
+  <div id="portfolio-preview"></div>
+</section>
+
+<!-- ROADMAP -->
+<section id="page-roadmap" class="page">
+  <h1>🗺️ 진로 로드맵</h1>
+  <p class="subtitle">졸업 후 진로별로 학년 단위 단계를 살펴보세요.</p>
+  <div class="path-selector" id="path-selector">
+    <button class="path-btn active" data-path="job">💼 곧장 취업</button>
+    <button class="path-btn" data-path="univ">🎓 대학 진학</button>
+    <button class="path-btn" data-path="founder">🚀 창업</button>
+    <button class="path-btn" data-path="public">🏛 공무원·공기업</button>
+  </div>
+  <div class="card">
+    <div class="roadmap">
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h2>📌 진로 결정에 도움이 되는 팁</h2>
+    <ul style="padding-left:20px;color:var(--text);line-height:1.9">
+      <li>1학년: 다양한 동아리·체험으로 관심사 폭넓게 탐색</li>
+      <li>2학년: 자격증 1~2개 취득과 함께 진로 방향 좁히기</li>
+      <li>3학년: 현장 실습·면접 준비, 또는 입시 자기소개서 작성</li>
+      <li>NCS(국가직무능력표준) 기반으로 직무 역량을 키우면 취업에 유리</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- Job detail modal -->
+<div class="modal" id="job-modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="job-modal-body"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   Navigation
+   ========================================================= */
+document.querySelectorAll('.nav-btn').forEach(b=>{
+  b.addEventListener('click',()=>navigate(b.dataset.page));
+});
+document.querySelectorAll('.hero-card').forEach(c=>{
+  c.addEventListener('click',()=>navigate(c.dataset.go));
+});
+function navigate(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelector('.nav-btn[data-page="'+id+'"]')?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* =========================================================
+   APTITUDE TEST — Holland 6 types adapted for 특성화고
+   R 현실형 · I 탐구형 · A 예술형 · S 사회형 · E 진취형 · C 관습형
+   ========================================================= */
+const questions=[
+  {t:'R',q:'기계나 도구를 다루는 일이 재미있다.'},
+  {t:'R',q:'몸을 움직여 무언가를 만드는 활동을 좋아한다.'},
+  {t:'R',q:'고장 난 물건을 분해해서 고쳐보고 싶다.'},
+  {t:'I',q:'어떤 현상의 원리나 이유가 궁금할 때가 많다.'},
+  {t:'I',q:'문제를 차근차근 분석해서 풀어내는 게 즐겁다.'},
+  {t:'I',q:'새로운 지식을 찾아보고 정리하는 것을 좋아한다.'},
+  {t:'A',q:'그림·음악·영상 같은 창작 활동에 흥미가 있다.'},
+  {t:'A',q:'정해진 답보다 새로운 표현 방식을 시도하고 싶다.'},
+  {t:'A',q:'디자인이나 색감 같은 시각적 감각이 좋다는 말을 들은 적 있다.'},
+  {t:'S',q:'친구의 고민을 들어주는 일이 자연스럽다.'},
+  {t:'S',q:'누군가를 가르치거나 도와줄 때 보람을 느낀다.'},
+  {t:'S',q:'팀 활동에서 분위기를 좋게 만드는 편이다.'},
+  {t:'E',q:'사람들 앞에서 발표하거나 설득하는 것이 어렵지 않다.'},
+  {t:'E',q:'리더 역할을 맡으면 의욕이 생긴다.'},
+  {t:'E',q:'새로운 일을 기획하고 추진하는 것을 좋아한다.'},
+  {t:'C',q:'서류·자료를 깔끔하게 정리하는 게 만족스럽다.'},
+  {t:'C',q:'규칙과 순서가 분명한 일이 편하다.'},
+  {t:'C',q:'숫자나 데이터를 다루는 일이 싫지 않다.'}
+];
+const typeInfo={
+  R:{name:'현실형 (Realistic)',color:'#ef4444',desc:'손으로 만들고 기계·도구를 다루는 실용적인 일을 좋아하는 유형',jobs:['자동차정비','전기·전자기사','조리사','농업·축산','건축기능'],majors:['기계과','자동차과','전기과','조리과','건축과']},
+  I:{name:'탐구형 (Investigative)',color:'#3b82f6',desc:'분석하고 연구하며 원리를 파헤치는 것을 즐기는 유형',jobs:['데이터분석가','소프트웨어개발자','네트워크엔지니어','연구원'],majors:['정보처리과','소프트웨어과','전자통신과','바이오공학과']},
+  A:{name:'예술형 (Artistic)',color:'#a855f7',desc:'창의적이고 자유로운 표현을 좋아하는 감성·예술 지향 유형',jobs:['웹디자이너','UI/UX디자이너','패션디자이너','영상편집자','일러스트레이터'],majors:['디자인과','애니메이션과','미디어콘텐츠과','패션산업과']},
+  S:{name:'사회형 (Social)',color:'#10b981',desc:'사람을 돕고 가르치며 관계 속에서 보람을 느끼는 유형',jobs:['간호조무사','보육·유아교사','상담사','요양보호사','서비스매니저'],majors:['보건간호과','유아교육과','사회복지과','관광서비스과']},
+  E:{name:'진취형 (Enterprising)',color:'#f59e0b',desc:'사람을 이끌고 설득하며 새로운 일을 추진하는 것을 좋아하는 유형',jobs:['마케터','쇼핑몰운영자','호텔매니저','영업전문가','MD'],majors:['경영과','마케팅과','관광경영과','유통·물류과']},
+  C:{name:'관습형 (Conventional)',color:'#6366f1',desc:'정확하고 체계적인 일을 좋아하며 데이터·문서 관리에 능한 유형',jobs:['회계사무원','전산세무','사무자동화','은행원','공무원'],majors:['회계과','금융정보과','사무행정과','전산세무과']}
+};
+let aptState={idx:0,answers:{}};
+
+function renderAptitude(){
+  const card=document.getElementById('aptitude-card');
+  if(aptState.idx>=questions.length){
+    showAptResult();return;
+  }
+  const q=questions[aptState.idx];
+  const pct=Math.round((aptState.idx/questions.length)*100);
+  const labels=['전혀 아니다','별로 아니다','보통','조금 그렇다','매우 그렇다'];
+  card.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span style="color:var(--text-light);font-size:13px">진행 ${aptState.idx+1} / ${questions.length}</span>
+      <span style="color:var(--primary);font-weight:700">${pct}%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="question"><span class="question-num">Q${aptState.idx+1}.</span>${q.q}</div>
+    <div class="options">
+      ${labels.map((l,i)=>`
+        <button class="option ${aptState.answers[aptState.idx]===i+1?'selected':''}" onclick="answer(${i+1})">
+          <span class="option-icon">${i+1}</span>${l}
+        </button>`).join('')}
+    </div>
+    <div class="test-controls">
+      <button class="btn btn-outline ${aptState.idx===0?'no-print':''}" ${aptState.idx===0?'disabled style="opacity:0.4;cursor:not-allowed"':''} onclick="prevQ()">이전</button>
+      <button class="btn" onclick="nextQ()">${aptState.idx===questions.length-1?'결과 보기':'다음'} →</button>
+    </div>
+  `;
+}
+function answer(v){aptState.answers[aptState.idx]=v;renderAptitude();}
+function prevQ(){if(aptState.idx>0){aptState.idx--;renderAptitude();}}
+function nextQ(){
+  if(!aptState.answers[aptState.idx]){alert('답을 선택해 주세요.');return;}
+  aptState.idx++;renderAptitude();
+}
+function showAptResult(){
+  const scores={R:0,I:0,A:0,S:0,E:0,C:0};
+  questions.forEach((q,i)=>{scores[q.t]+=(aptState.answers[i]||0);});
+  const max=Math.max(...Object.values(scores));
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const top=sorted[0][0];
+  const second=sorted[1][0];
+  const card=document.getElementById('aptitude-card');
+  card.innerHTML=`
+    <h2 style="margin-top:0">🎉 검사 결과</h2>
+    <div class="result-score">
+      ${Object.entries(scores).map(([k,v])=>`
+        <div class="score-item" style="background:${typeInfo[k].color}">
+          <div class="type">${typeInfo[k].name.split(' ')[0]}</div>
+          <div class="val">${v}</div>
+        </div>`).join('')}
+    </div>
+
+    <div class="top-type">
+      <span class="badge badge-${top.toLowerCase()}">주요 유형</span>
+      <h2 style="margin:8px 0;color:${typeInfo[top].color}">${typeInfo[top].name}</h2>
+      <p>${typeInfo[top].desc}</p>
+      <div class="detail-section">
+        <strong>추천 직업</strong>
+        <div class="tags">${typeInfo[top].jobs.map(j=>`<span class="tag">${j}</span>`).join('')}</div>
+      </div>
+      <div class="detail-section">
+        <strong>관련 특성화고 학과</strong>
+        <div class="tags">${typeInfo[top].majors.map(j=>`<span class="tag">${j}</span>`).join('')}</div>
+      </div>
+    </div>
+
+    <div class="top-type" style="border-left-color:${typeInfo[second].color};background:linear-gradient(135deg,#f8f9ff,#fff)">
+      <span class="badge badge-${second.toLowerCase()}">보조 유형</span>
+      <h2 style="margin:8px 0;color:${typeInfo[second].color};font-size:18px">${typeInfo[second].name}</h2>
+      <p style="font-size:14px">${typeInfo[second].desc}</p>
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-outline" onclick="restartApt()">다시 검사</button>
+      <button class="btn" onclick="navigate('jobs')">관련 직무 보기 →</button>
+    </div>
+  `;
+}
+function restartApt(){aptState={idx:0,answers:{}};renderAptitude();}
+
+/* =========================================================
+   JOB & MAJOR INFO
+   ========================================================= */
+const jobs=[
+  {emoji:'💻',name:'IT·소프트웨어',field:'기술',type:'I',majors:['컴퓨터응용과','소프트웨어과','정보처리과'],
+   careers:['웹/앱 개발자','데이터 엔지니어','시스템 관리자','네트워크 엔지니어','정보보안 전문가'],
+   certs:['정보처리기능사','정보처리산업기사','리눅스마스터','SQLD','네트워크관리사'],
+   salary:'신입 2,800만 ~ 3,500만 원',
+   desc:'AI·클라우드 시대의 핵심 산업. 학력보다 실력으로 인정받기 좋은 분야이며 부트캠프·자격증·포트폴리오가 큰 무기가 됩니다.'},
+  {emoji:'🎨',name:'디자인',field:'예술',type:'A',majors:['디자인과','시각디자인과','웹디자인과','애니메이션과'],
+   careers:['웹/UI디자이너','그래픽 디자이너','일러스트레이터','패션디자이너','영상편집자'],
+   certs:['컴퓨터그래픽스운용기능사','웹디자인기능사','GTQ','컬러리스트산업기사'],
+   salary:'신입 2,400만 ~ 3,200만 원',
+   desc:'창의력과 실무 도구(포토샵·일러스트레이터·피그마 등) 활용 능력이 중요한 분야. 자신만의 포트폴리오가 곧 이력서입니다.'},
+  {emoji:'🔧',name:'기계·자동차',field:'기술',type:'R',majors:['기계과','자동차과','메카트로닉스과'],
+   careers:['자동차정비사','산업기계 설계','CNC 가공사','품질관리사','로봇 운용 기술자'],
+   certs:['자동차정비기능사','기계가공조립기능사','컴퓨터응용밀링기능사','지게차운전기능사'],
+   salary:'신입 2,800만 ~ 3,800만 원',
+   desc:'전통적인 제조업의 기반이자 미래 자율주행·로봇 산업의 출발점. 손기술과 도면 해석 능력이 강점이 됩니다.'},
+  {emoji:'⚡',name:'전기·전자',field:'기술',type:'R',majors:['전기과','전자과','전기제어과','전자통신과'],
+   careers:['전기기사','반도체 공정기술자','PCB 설계','통신설비 기술자','신재생에너지 기술자'],
+   certs:['전기기능사','전기산업기사','전자기능사','승강기기능사'],
+   salary:'신입 3,000만 ~ 4,000만 원',
+   desc:'반도체·5G·전기차 등 첨단 산업의 핵심. 자격증 보유 시 대기업·공기업 진입도 가능합니다.'},
+  {emoji:'🍳',name:'조리·제과제빵',field:'서비스',type:'R',majors:['조리과','제과제빵과','외식조리과'],
+   careers:['한식·양식 조리사','파티시에','바리스타','외식업 매니저','푸드스타일리스트'],
+   certs:['한식조리기능사','양식조리기능사','제과기능사','제빵기능사','조주기능사'],
+   salary:'신입 2,400만 ~ 3,200만 원',
+   desc:'국내외 호텔·외식 시장에서 꾸준한 수요. 실습 경험과 자격증, 그리고 본인 SNS·포트폴리오가 큰 자산입니다.'},
+  {emoji:'💇',name:'미용·뷰티',field:'서비스',type:'A',majors:['미용과','뷰티아트과','메이크업과'],
+   careers:['헤어디자이너','메이크업 아티스트','네일아티스트','피부관리사','뷰티 인플루언서'],
+   certs:['미용사(일반)','미용사(피부)','미용사(네일)','미용사(메이크업)'],
+   salary:'신입 2,200만 ~ 3,000만 원',
+   desc:'기술·감각·서비스 마인드가 모두 필요한 분야. K-뷰티 영향으로 해외 진출 기회도 확대 중.'},
+  {emoji:'🏥',name:'보건·간호',field:'사회',type:'S',majors:['보건간호과','간호과','보건의료과'],
+   careers:['간호조무사','병원 행정','임상병리','요양보호사','보건교사 보조'],
+   certs:['간호조무사','의료정보관리사','요양보호사','응급처치 자격증'],
+   salary:'신입 2,500만 ~ 3,200만 원',
+   desc:'고령화로 수요가 꾸준히 증가. 정규 간호사가 되려면 대학 진학(간호학과)이 필요합니다.'},
+  {emoji:'📊',name:'회계·경영',field:'사무',type:'C',majors:['회계과','경영사무과','금융정보과'],
+   careers:['회계사무원','전산세무','은행원','보험·증권 영업','경리·총무'],
+   certs:['전산회계 1·2급','전산세무 1·2급','ERP정보관리사','FAT','TAT'],
+   salary:'신입 2,500만 ~ 3,200만 원',
+   desc:'안정적인 사무직 진출에 유리. 자격증 다수 보유 시 공공기관·금융권 채용에 매우 강합니다.'},
+  {emoji:'🏨',name:'관광·호텔',field:'서비스',type:'E',majors:['관광과','호텔관광과','관광경영과'],
+   careers:['호텔 프론트','여행상품 기획','MICE 운영','승무원(저비용·항공사)','관광통역안내사'],
+   certs:['호텔관리사','관광통역안내사','국내여행안내사','컨벤션기획사'],
+   salary:'신입 2,500만 ~ 3,200만 원',
+   desc:'외국어(영어·중국어·일본어) 능력이 강력한 무기. 해외 호텔·크루즈 취업 기회도 열려 있습니다.'},
+  {emoji:'🌾',name:'농업·식품',field:'기술',type:'R',majors:['스마트팜과','식품가공과','원예과'],
+   careers:['스마트팜 운영자','식품 품질관리','농산물 유통','농기계 정비','농업 ICT 기술자'],
+   certs:['유기농업기능사','식품가공기능사','농기계운전기능사','농산물품질관리사'],
+   salary:'신입 2,500만 ~ 3,500만 원',
+   desc:'전통 농업 + ICT가 결합된 스마트팜이 성장 중. 정부 청년 농업인 지원 정책도 풍부합니다.'},
+  {emoji:'📦',name:'유통·물류',field:'사무',type:'E',majors:['유통과','물류과','경영사무과'],
+   careers:['MD','쇼핑몰 운영','물류 관리자','구매·바이어','SCM 운영'],
+   certs:['물류관리사','유통관리사 2·3급','지게차운전기능사','전산회계'],
+   salary:'신입 2,500만 ~ 3,300만 원',
+   desc:'이커머스 폭발 성장으로 인기 급상승. 데이터 분석·MD 감각이 큰 강점이 됩니다.'},
+  {emoji:'📱',name:'미디어·콘텐츠',field:'예술',type:'A',majors:['미디어콘텐츠과','방송영상과','애니메이션과'],
+   careers:['유튜브 PD','영상편집자','SNS 콘텐츠 기획','뉴미디어 마케터','웹툰·웹소설 작가'],
+   certs:['컴퓨터그래픽스운용기능사','GTQ','멀티미디어콘텐츠제작전문가'],
+   salary:'신입 2,200만 ~ 3,200만 원',
+   desc:'1인 미디어 시대의 황금 분야. 자신만의 채널·포트폴리오를 만드는 것이 가장 빠른 진입로.'}
+];
+const fields=['전체',...new Set(jobs.map(j=>j.field))];
+function renderFilters(){
+  document.getElementById('filter-bar').innerHTML=fields.map((f,i)=>
+    `<button class="chip ${i===0?'active':''}" onclick="filterJobs('${f}',this)">${f}</button>`
+  ).join('');
+}
+function filterJobs(f,el){
+  document.querySelectorAll('#filter-bar .chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderJobs(f);
+}
+function renderJobs(filter='전체'){
+  const list=filter==='전체'?jobs:jobs.filter(j=>j.field===filter);
+  document.getElementById('job-grid').innerHTML=list.map((j,i)=>`
+    <div class="job-card" onclick="openJob(${jobs.indexOf(j)})">
+      <div class="emoji">${j.emoji}</div>
+      <h3>${j.name}</h3>
+      <div class="field">${j.field}</div>
+      <div class="salary">💰 ${j.salary}</div>
+      <div class="tags">
+        ${j.majors.slice(0,2).map(m=>`<span class="tag">${m}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function openJob(i){
+  const j=jobs[i];
+  document.getElementById('job-modal-body').innerHTML=`
+    <div style="font-size:48px">${j.emoji}</div>
+    <h2 style="margin-top:8px">${j.name}</h2>
+    <p style="color:var(--text-light);margin:8px 0 16px">${j.desc}</p>
+    <div class="detail-section">
+      <strong>📚 관련 특성화고 학과</strong>
+      <div class="tags">${j.majors.map(m=>`<span class="tag">${m}</span>`).join('')}</div>
+    </div>
+    <div class="detail-section">
+      <strong>👔 진출 직업</strong>
+      <ul>${j.careers.map(c=>`<li>${c}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <strong>🏆 추천 자격증</strong>
+      <ul>${j.certs.map(c=>`<li>${c}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-section">
+      <strong>💰 평균 신입 연봉</strong>
+      <p>${j.salary}</p>
+    </div>
+  `;
+  document.getElementById('job-modal').classList.add('open');
+}
+function closeModal(){document.getElementById('job-modal').classList.remove('open');}
+document.getElementById('job-modal').addEventListener('click',e=>{
+  if(e.target.id==='job-modal')closeModal();
+});
+
+/* =========================================================
+   PORTFOLIO BUILDER
+   ========================================================= */
+let pf={name:'',school:'',major:'',goal:'',intro:'',cert:[],proj:[],skill:[]};
+const PF_KEY='careerPortfolio_v1';
+
+function loadPortfolio(){
+  try{
+    const s=localStorage.getItem(PF_KEY);
+    if(s){pf={...pf,...JSON.parse(s)};}
+  }catch(e){}
+  ['name','school','major','goal','intro'].forEach(k=>{
+    const el=document.getElementById('pf-'+k);if(el)el.value=pf[k]||'';
+  });
+  renderItems();renderPortfolio();
+}
+function savePortfolio(){
+  ['name','school','major','goal','intro'].forEach(k=>{
+    pf[k]=document.getElementById('pf-'+k).value;
+  });
+  try{localStorage.setItem(PF_KEY,JSON.stringify(pf));}catch(e){}
+}
+function addItem(kind){
+  const input=document.getElementById('pf-'+kind+'-input');
+  const v=input.value.trim();
+  if(!v)return;
+  pf[kind].push(v);input.value='';
+  savePortfolio();renderItems();renderPortfolio();
+}
+function removeItem(kind,i){
+  pf[kind].splice(i,1);
+  savePortfolio();renderItems();renderPortfolio();
+}
+function renderItems(){
+  ['cert','proj','skill'].forEach(k=>{
+    const el=document.getElementById('pf-'+k+'-list');
+    if(!pf[k].length){el.innerHTML='<div style="color:var(--text-light);font-size:13px">아직 추가된 항목이 없어요.</div>';return;}
+    el.innerHTML=pf[k].map((v,i)=>`
+      <div class="item-row"><span>• ${v}</span><button class="remove-btn" onclick="removeItem('${k}',${i})">×</button></div>
+    `).join('');
+  });
+}
+function renderPortfolio(){
+  savePortfolio();
+  const el=document.getElementById('portfolio-preview');
+  if(!pf.name){el.innerHTML='';return;}
+  el.innerHTML=`
+    <div class="portfolio-preview">
+      <div class="pp-header">
+        <h2>${pf.name||'이름'}</h2>
+        <p>${pf.school||''} · ${pf.major||''}</p>
+        ${pf.goal?`<p style="color:var(--accent);font-weight:600;margin-top:4px">🎯 희망 진로 · ${pf.goal}</p>`:''}
+      </div>
+      ${pf.intro?`<div class="pp-section"><h3>자기소개</h3><p>${pf.intro}</p></div>`:''}
+      ${pf.cert.length?`<div class="pp-section"><h3>자격증</h3><ul style="padding-left:20px">${pf.cert.map(c=>`<li>${c}</li>`).join('')}</ul></div>`:''}
+      ${pf.proj.length?`<div class="pp-section"><h3>프로젝트 / 활동</h3><ul style="padding-left:20px">${pf.proj.map(c=>`<li>${c}</li>`).join('')}</ul></div>`:''}
+      ${pf.skill.length?`<div class="pp-section"><h3>강점 · 스킬</h3><div class="tags">${pf.skill.map(s=>`<span class="tag" style="font-size:13px;padding:5px 14px">${s}</span>`).join('')}</div></div>`:''}
+    </div>
+  `;
+}
+function resetPortfolio(){
+  if(!confirm('모든 포트폴리오 내용을 삭제할까요?'))return;
+  pf={name:'',school:'',major:'',goal:'',intro:'',cert:[],proj:[],skill:[]};
+  localStorage.removeItem(PF_KEY);
+  ['name','school','major','goal','intro'].forEach(k=>document.getElementById('pf-'+k).value='');
+  renderItems();renderPortfolio();
+}
+['name','school','major','goal','intro'].forEach(k=>{
+  document.addEventListener('input',e=>{
+    if(e.target.id==='pf-'+k){savePortfolio();renderPortfolio();}
+  });
+});
+
+/* =========================================================
+   ROADMAP
+   ========================================================= */
+const roadmaps={
+  job:{
+    title:'곧장 취업',
+    stages:[
+      {label:'1학년',items:['전공 기초 다지기','학교 동아리·체험 참여','기본 자격증(워드·컴활) 도전','진로 적성검사로 방향 탐색']},
+      {label:'2학년',items:['주력 자격증 1~2개 취득','학과 심화 실습','인턴십·현장실습 정보 수집','이력서·자기소개서 초안']},
+      {label:'3학년',items:['선취업 현장실습 참여','산학협력·맞춤형반 신청','면접 연습·포트폴리오 정리','전형 일정 관리']},
+      {label:'졸업 후',items:['중견·중소기업 정규직 전환','후학습(재직자 특별전형)','경력 쌓아 이직·승진','3~5년 후 대학 진학 옵션']}
+    ]
+  },
+  univ:{
+    title:'대학 진학',
+    stages:[
+      {label:'1학년',items:['희망 학과 정보 수집','내신 성적 관리 시작','관련 동아리·봉사활동','특성화고 입학사정관 전형 파악']},
+      {label:'2학년',items:['전공 적합도 활동 기록','자격증 + 경시대회 도전','수능 최저 기준 학과 점검','학생부 비교과 보강']},
+      {label:'3학년',items:['특성화고 전형 vs 일반전형 결정','자기소개서·면접 준비','수시 6장·정시 3장 전략','수능 또는 적성고사 응시']},
+      {label:'대학 입학',items:['전공 심화 학습','자격증 추가 취득','산학협력 인턴십','대학원·취업 결정']}
+    ]
+  },
+  founder:{
+    title:'창업',
+    stages:[
+      {label:'1학년',items:['관심 분야 시장 관찰','SNS·블로그 운영해보기','창업 동아리 가입','학생 창업 경진대회 정보']},
+      {label:'2학년',items:['아이템 발굴 & 소규모 시도','전공 기술 + 마케팅 학습','학교 창업보육센터 활용','멘토링 프로그램 참여']},
+      {label:'3학년',items:['창업진흥원 청소년 사업 지원','시제품(MVP) 제작','BM·사업계획서 작성','법인 형태 학습(개인·법인)']},
+      {label:'졸업 후',items:['청년창업사관학교 / K-스타트업','초기 투자(시드) 유치','병역(대체복무) 검토','피보팅·확장 또는 재취업 대비']}
+    ]
+  },
+  public:{
+    title:'공무원 · 공기업',
+    stages:[
+      {label:'1학년',items:['공무원·공기업 직군 탐색','컴퓨터활용능력·한국사 1차 취득','출결·봉사시간 관리','특성화고 졸업자 전형 정보 수집']},
+      {label:'2학년',items:['직렬 결정(기술·행정·세무 등)','전공 자격증 집중 취득','NCS 학습 시작','학교 추천 전형 자격 충족']},
+      {label:'3학년',items:['지역인재 9급/공기업 채용 지원','면접·인성검사 대비','자기소개서·NCS 준비','합격 후 임용 대기']},
+      {label:'임용 후',items:['실무 경험 + 직무역량 강화','7급·승진시험 준비','후학습 야간·사이버 대학','정년 안정 + 연금']}
+    ]
+  }
+};
+function renderRoadmap(path){
+  const r=roadmaps[path];
+  document.getElementById('timeline').innerHTML=r.stages.map((s,i)=>`
+    <div class="stage">
+      <div class="stage-dot">${i+1}</div>
+      <div class="stage-card">
+        <h4>${s.label}</h4>
+        <ul>${s.items.map(x=>`<li>${x}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+}
+document.querySelectorAll('.path-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.path-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderRoadmap(b.dataset.path);
+  });
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderAptitude();
+renderFilters();
+renderJobs();
+loadPortfolio();
+renderRoadmap('job');
+</script>
+</body>
+</html>

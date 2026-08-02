@@ -3,3 +3,6 @@ node_modules
 .env
 .env.local
 .env*.local
+
+# 중첩 클론 방지
+career-portfolio/

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, type Part } from "@google/generative-ai";
 import { CAREER_TESTS } from "@/types/careerTests";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. 첨부 파일 수집 (Storage)
-    const fileParts: { text?: string; inlineData?: { mimeType: string; data: string } }[] = [];
+    const fileParts: Part[] = [];
     const textMimes = ["text/plain"];
     const imageMimes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
     const pdfMime = "application/pdf";
@@ -148,7 +148,7 @@ export async function POST(request: NextRequest) {
 검사 결과와 첨부 자료를 종합 분석하여 진로 방향, 전공·직업 연계, 실질적 조언을 제공해 주세요.
 답변은 한국어로, 400~800자 정도로 핵심 위주로 작성하고, 구체적이며 실행 가능한 조언을 포함해 주세요.`;
 
-    const contents = [
+    const contents: Part[] = [
       {
         text: systemPrompt + "\n\n" + resultsText + filesIntro,
       },

@@ -6,6 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
  */
 const JOBS_API_URL = "https://www.career.go.kr/cnet/front/openapi/jobs.json";
 
+type CareerJob = {
+  job_cd?: string;
+  job_nm?: string;
+  jobNm?: string;
+  aptit_name?: string;
+  aptitName?: string;
+};
+
 export async function GET(request: NextRequest) {
   const apiKey = process.env.NEXT_PUBLIC_CAREER_NET_API_KEY?.trim();
   if (!apiKey) {
@@ -41,7 +49,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const json = JSON.parse(text) as { jobs?: { job_cd?: string; job_nm?: string; jobNm?: string; aptit_name?: string; aptitName?: string }[]; job?: unknown[] };
+    const json = JSON.parse(text) as { jobs?: CareerJob[]; job?: CareerJob[] };
     const jobs = json.jobs ?? json.job ?? [];
     const list = Array.isArray(jobs) ? jobs : [];
 

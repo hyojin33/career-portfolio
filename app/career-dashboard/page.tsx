@@ -5,7 +5,7 @@ import { AiFeedbackCard } from "@/components/AiFeedbackCard";
 import { isAbortOrCancelError } from "@/lib/isAbortError";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { getSupabaseClient } from "@/lib/supabase";
 import { CAREER_TESTS } from "@/types/careerTests";
 
@@ -76,7 +76,7 @@ const CAREER_ATTACHMENTS_BUCKET = "career-attachments";
 /** Storage에 저장된 파일 정보 (경로 = 삭제/다운로드 시 사용) */
 type StoredFileItem = { name: string; path: string };
 
-export default function CareerDashboardPage() {
+function CareerDashboardContent() {
   const { user, session, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -682,5 +682,13 @@ export default function CareerDashboardPage() {
         <p>특성화고등학교 진로 학습플랫폼</p>
       </footer>
     </div>
+  );
+}
+
+export default function CareerDashboardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg)]" />}>
+      <CareerDashboardContent />
+    </Suspense>
   );
 }
